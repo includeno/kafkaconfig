@@ -1,37 +1,63 @@
-## Welcome to GitHub Pages
+# Kafka配置
 
-You can use the [editor on GitHub](https://github.com/includeno/kafkaconfig/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
+## docker-compose-env.yml
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+```
+#运行环境的启动方法 zookeeper
+version: '2'
+services:
+  zookeeper:
+    image: zookeeper:3.5.9
+    container_name: zookeeper_container
+    ports:
+      - "2181:2181"
+  
+  kafka01:
+    image: wurstmeister/kafka:2.13-2.6.0
+    container_name: kafka_container_01
+    ports:
+      - "9092:9092"
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_HOST_NAME=localhost
+      - KAFKA_ADVERTISED_PORT=9092
+    depends_on:
+      - zookeeper
+  
+  kafka02:
+    image: wurstmeister/kafka:2.13-2.6.0
+    container_name: kafka_container_02
+    ports:
+      - "9093:9092"
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_HOST_NAME=localhost
+      - KAFKA_ADVERTISED_PORT=9092
+    depends_on:
+      - zookeeper
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
 ```
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
 
-### Jekyll Themes
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/includeno/kafkaconfig/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+## 启动命令
 
-### Support or Contact
+```
+docker-compose -f docker-compose-env.yml up -d 
+docker-compose -f docker-compose-env.yml stop
+docker-compose -f docker-compose-env.yml down
+```
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+
+
+## 检查命令
+
+```
+docker-compose -f docker-compose-env.yml logs zookeeper
+docker-compose -f docker-compose-env.yml logs kafka01
+docker-compose -f docker-compose-env.yml logs kafka02
+```
+
+
