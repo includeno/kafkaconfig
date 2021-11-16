@@ -1,5 +1,12 @@
 # Kafka配置
 
+## app.env
+
+```
+zookeeper_ip=公网ip
+```
+
+例如 zookeeper_ip=11.11.11.112
 
 
 ## docker-compose-env.yml
@@ -68,7 +75,7 @@ networks:
 ## 启动命令
 
 ```
-docker-compose -f docker-compose-env.yml up -d 
+docker-compose --env-file app.env -f docker-compose-env.yml up -d 
 docker-compose -f docker-compose-env.yml stop
 docker-compose -f docker-compose-env.yml down
 ```
@@ -81,6 +88,10 @@ docker-compose -f docker-compose-env.yml down
 docker-compose -f docker-compose-env.yml logs zookeeper
 docker-compose -f docker-compose-env.yml logs kafka01
 docker-compose -f docker-compose-env.yml logs kafka02
+docker-compose -f docker-compose-env.yml logs kafka03
 ```
 
+参考
+
+https://docs.docker.com/compose/compose-file/compose-file-v2
 
