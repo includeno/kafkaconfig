@@ -13,6 +13,8 @@ services:
     container_name: zookeeper_container
     ports:
       - "2181:2181"
+    networks:
+      - app_net
   
   kafka01:
     image: wurstmeister/kafka:2.13-2.6.0
@@ -21,10 +23,13 @@ services:
       - "9092:9092"
     environment:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-      - KAFKA_ADVERTISED_HOST_NAME=localhost
+      - KAFKA_ADVERTISED_HOST_NAME=${zookeeper_ip}
       - KAFKA_ADVERTISED_PORT=9092
+    networks:
+      - app_net
     depends_on:
       - zookeeper
+    
   
   kafka02:
     image: wurstmeister/kafka:2.13-2.6.0
@@ -33,11 +38,29 @@ services:
       - "9093:9092"
     environment:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-      - KAFKA_ADVERTISED_HOST_NAME=localhost
+      - KAFKA_ADVERTISED_HOST_NAME=${zookeeper_ip}
       - KAFKA_ADVERTISED_PORT=9092
+    networks:
+      - app_net
     depends_on:
       - zookeeper
 
+  kafka03:
+    image: wurstmeister/kafka:2.13-2.6.0
+    container_name: kafka_container_03
+    ports:
+      - "9094:9092"
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_HOST_NAME=${zookeeper_ip}
+      - KAFKA_ADVERTISED_PORT=9092
+    networks:
+      - app_net
+    depends_on:
+      - zookeeper
+networks:
+  app_net:
+    driver: bridge
 ```
 
 

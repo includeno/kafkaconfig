@@ -93,3 +93,6 @@ docker-compose -f docker-compose-env.yml logs kafka02
 docker-compose -f docker-compose-env.yml logs kafka03
 ```
 
+参考
+
+https://docs.docker.com/compose/compose-file/compose-file-v2
