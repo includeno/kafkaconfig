@@ -32,7 +32,7 @@ services:
     environment:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_ADVERTISED_HOST_NAME=${zookeeper_ip}
-      - KAFKA_ADVERTISED_PORT=9092
+      - KAFKA_ADVERTISED_PORT=9093
     networks:
       - app_net
     depends_on:
@@ -46,7 +46,7 @@ services:
     environment:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_ADVERTISED_HOST_NAME=${zookeeper_ip}
-      - KAFKA_ADVERTISED_PORT=9092
+      - KAFKA_ADVERTISED_PORT=9094
     networks:
       - app_net
     depends_on:
